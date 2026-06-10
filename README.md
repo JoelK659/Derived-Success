@@ -130,19 +130,19 @@ The goal of this project was to gain practical experience building a real-world 
 
 ### Home Page
 
-![Home Page](<img width="2502" height="1305" alt="homepage" src="https://github.com/user-attachments/assets/0b8e87ac-e61a-4510-97b0-f2b4fa7cb9a5" />)
+![Home Page](homepage.png)
 
 ### Tutor Detail
 
-![Tutor Directory](<img width="2510" height="1252" alt="tutordetail" src="https://github.com/user-attachments/assets/37370853-407f-4158-ab40-f7ca07d1347c" />)
+![Tutor Directory](tutordetail.png)
 
 ### Session Request Form
 
-![Session Request Form](<img width="2507" height="1070" alt="sessionrequest" src="https://github.com/user-attachments/assets/66049306-a894-4d9e-9a89-9f080b9e5b2f" />)
+![Session Request Form](sessionrequest.png)
 
 ### Tutor Dashboard
 
-![Tutor Dashboard](<img width="2502" height="1235" alt="tutordash" src="https://github.com/user-attachments/assets/42f40437-4651-48f5-afe5-be5c77c96233" />)
+![Tutor Dashboard](tutordash.png)
 
 ## Author
 
