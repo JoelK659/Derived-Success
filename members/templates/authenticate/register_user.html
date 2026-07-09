@@ -1,0 +1,23 @@
+{% extends "tutors/base.html" %}
+
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="shadow p-4 mb-5 rounded">
+
+
+
+  <form action="{% url 'register_user' %}" method=POST>
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-success">Register</button>
+
+  </form>
+</div>
+
+{% endblock %}

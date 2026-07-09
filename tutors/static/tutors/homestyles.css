@@ -1,0 +1,33 @@
+.card {
+  border: 1px solid #e0e0e0;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card .card-text {
+  font-size: 1.5rem;
+}
+
+.tutor-list {
+  margin-top: 20px;
+}
+
+.conf {
+  color: green;
+}
+
+.pend {
+  color: orange;
+}
+
+.decl {
+  color: red;
+}
+/* .card .card-desc {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 200px;
+} */

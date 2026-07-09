@@ -1,0 +1,23 @@
+{% extends "tutors/base.html" %}
+
+
+{% block title %}Session Request{% endblock %}
+
+{% block content %}
+
+<div class="shadow p-4 mb-5 rounded">
+
+
+
+  <form action="{% url 'session_request' tutor.slug %}" method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-success">Submit</button>
+
+  </form>
+</div>
+
+{% endblock %}

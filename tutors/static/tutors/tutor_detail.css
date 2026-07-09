@@ -1,0 +1,47 @@
+
+
+.panel {
+    border: none;
+    box-shadow: none;
+    text-align: center;
+}
+
+.panel-body {
+  border: 3px;
+  box-shadow: 1px;
+}
+
+.tutor-name {
+    color: #5A5A5A;
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+
+.tutor-img-details {
+    text-align: center;
+}
+
+.tutor-img-details img {
+    width: 100%;
+}
+
+.tutor_meta {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    margin: 15px 0;
+}
+
+.tutor_meta span {
+    display: block;
+    margin-bottom: 10px;
+}
+.tutor_meta a, .tutor-price{
+    color:#fc5959 ;
+}
+
+.ses-button {
+  margin-top: 20px;
+}
