@@ -1,0 +1,276 @@
+{% extends "tutors/base.html" %}
+
+{% load static %}
+{% block title %}
+Home | Derived Success
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'tutors/homestyles.css' %}">
+
+<div class="session-requests">
+    {% if user.is_staff %}
+      {% if sessions %}
+        <h2>Session List</h2>
+        <!-- Search Bar -->
+        <div class="mb-4">
+            <form>
+              <div class="input-group mb-3 col-md-12">
+                <input type="text" class="form-control" name="session_name" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary" type="submit">Search</button>
+              </div>
+            </form>
+        </div>
+        <div class="container">
+          <!-- Requests -->
+          <h3>Pending Requests</h3>
+          {% if pending %}
+            {% for s in sessions %}
+              {% if s.status == "Pending" %}
+                <div class="row">
+                    <div class="col-md-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="card-title">
+                            <h4>
+                              <a class="request_link" href="{% url 'session_detail' s.slug %}"> {{ s.student_name }}</a>
+                            </h4>
+                          </div>
+                          <div class="card-desc">
+                            Description: {{ s.description }}
+                          </div>
+                          <div class="card-text">
+                            Requested Time: <strong>{{ s.time }}</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <h4>None</h4>
+          {% endif %}
+
+          <h3>Confirmed Requests</h3>
+          {% if confirmed %}
+            {% for s in sessions %}
+                {% if s.status == "Confirmed" %}
+                  <div class="row">
+                      <div class="col-md-3">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="card-title">
+                              <h4>
+                                {{ s.student_name }}
+                              </h4>
+                            </div>
+                            <div class="card-desc">
+                              Description: {{ s.description }}
+                            </div>
+                            <div class="card-text">
+                              Time: <strong>{{ s.time }}</strong>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                {% endif %}
+          {% endfor %}
+        {% else %}
+          <h4>None</h4>
+        {% endif %}
+    </div>
+  {% else %}
+  <h2>Session List</h2>
+    <div class="mb-4">
+        <form>
+          <div class="input-group mb-3 col-md-12">
+            <input type="text" class="form-control" name="session_name" placeholder="Search" aria-label="Search">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </div>
+        </form>
+    </div>
+    <h2>No sessions currently requested</h2>
+
+  {% endif %}
+{% endif %}
+</div>
+
+<div class="tutor-list">
+  {% if not user.is_staff %}
+    {% if tutors %}
+      <h2>Tutor List</h2>
+        <div class="container">
+          <!-- Search Bar -->
+          <div class="mb-4">
+              <form>
+                <div class="input-group mb-3 col-md-12">
+                  <input type="text" class="form-control" name="tutor_name" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+              </form>
+          </div>
+            <!-- Tutors -->
+          <div class="row">
+            {% for t in tutors %}
+            <div class="col-md-3">
+              <div class="card">
+                <!-- Image -->
+                {% if t.image %}
+                  <img src="{{ t.image }}" alt="{{ t.name }}" style="max-width:200px; max-height:200px; object-fit:contain;">
+                {% endif %}
+
+                <div class="card-body">
+                  <!-- Name -->
+                  <div class="card-title">
+                    <h4>
+                      <a class="tutor_link" href="{% url 'tutor_detail' t.slug %}">
+                      {{ t.name }}
+                      </a>
+                    </h4>
+                  </div>
+                  <!-- Price -->
+                  <div class="card-text">
+                    Price Per Hour: <strong>${{ t.price_per_hour }}0</strong>
+                  </div>
+                  <!-- Specialties -->
+                  <div class="card-text">
+                    Specialties: <strong>{{ t.specialties }}</strong>
+                  </div>
+                  <div class="card-text">
+                    Availability: <strong>{{ t.availability }}</strong>
+                  </div>
+                  <div class="card-text">
+                    Time: <strong>{{ t.availability_time }}</strong>
+                  </div>
+
+                  <div>
+                    {% if user.is_authenticated %}
+                      <a href="{% url 'session_request' t.slug %}">
+                        <button class="btn btn-round btn-danger" value="{{ t.id }}" id="request" type="button">Request Session</button>
+                      </a>
+                    {% else %}
+                      <a href="{% url 'login' %}">
+                        <button class="btn btn-round btn-danger" value="{{ t.id }}" id="request" type="button">Request Session</button>
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+    {% else %}
+      <p>No tutors available.</p>
+    {% endif %}
+
+<!-- Student Session Requests -->
+{% if user.is_authenticated %}
+    {% if sessions %}
+      <h2>Session Requests</h2>
+      <div class="container">
+        <div class="row">
+        <h3>Confirmed Requests</h3>
+        {% if confirmed %}
+          {% for s in sessions %}
+              {% if s.status == "Confirmed" %}
+                <div class="col-md-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-title">
+                        <h4>
+                          {{ s.tutor_name }}
+                        </h4>
+                        <div class="conf">
+                          <strong>Status: {{ s.status }}</strong>
+                        </div>
+                      </div>
+                      <div class="card-desc">
+                        Description: {{ s.description }}
+                      </div>
+                      <div class="card-text">
+                        Requested Time: <strong>{{ s.time }}</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          {% endif %}
+        {% endfor %}
+        {% else %}
+          <h4>None</h4>
+        {% endif %}
+      </div>
+      <div class="row">
+      <h3>Pending Requests</h3>
+      {% if pending %}
+        {% for s in sessions %}
+          {% if s.status == "Pending" %}
+              <div class="col-md-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title">
+                      <h4>
+                        {{ s.tutor_name }}
+                      </h4>
+                      <div class="pend">
+                        <strong>Status: {{ s.status }}</strong>
+                      </div>
+                    </div>
+                    <div class="card-desc">
+                      Description: {{ s.description }}
+                    </div>
+                    <div class="card-text">
+                      Requested Time: <strong>{{ s.time }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <h4>None</h4>
+    {% endif %}
+    </div>
+    <div class="row">
+    <h3>Declined Requests</h3>
+    {% if declined %}
+      {% for s in sessions %}
+        {% if s.status == "Declined" %}
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="card-title">
+                    <h4>
+                      {{ s.tutor_name }}
+                    </h4>
+                    <div class="decl">
+                      <strong>Status: {{ s.status }}</strong>
+                    </div>
+                  </div>
+                  <div class="card-desc">
+                    Description: {{ s.description }}
+                  </div>
+                  <div class="card-text">
+                    Requested Time: <strong>{{ s.time }}</strong>
+                  </div>
+                  <div class="card-text">
+                    Reason: <strong>{{ s.decline_reason }}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <h4>None</h4>
+    {% endif %}
+    </div>
+  {% else %}
+    <h2>No current session requests</h2>
+  {% endif %}
+{% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "tutors/base.html" %}
+{% load static %}
+
+
+{% block title %} {{ tutor.name }} {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'tutors/tutor_detail.css' %}">
+
+
+<div class="container bootdey">
+  <div class="col-md-12">
+    <section class="panel">
+        <div class="panel-body">
+            <div class="col-md-6">
+              <div class="tutor-img-details">
+                <img src="{{tutor.image}}" alt="Picture of {{ tutor.name }}">
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4 class="tutor-name">
+                {{ tutor.name }}
+            </h4>
+            <p>
+                {{ tutor.description }}
+            </p>
+            <div class="tutor_meta">
+                <span class="posted_in"> <strong>Specialties:</strong> {{ tutor.specialties }}</span>
+            </div>
+            <div class="tutor_meta">
+                <span class="posted_in"> <strong>Availability:</strong> {{ tutor.availability }}</span>
+            </div>
+            <div class="tutor_meta">
+                <span class="posted_in"> <strong>Time Available:</strong> {{ tutor.availability_time }}</span>
+            </div>
+
+
+            <div class="m-bot15">
+              <strong>Price : <span class="tutor-price"> ${{ tutor.price_per_hour }}0/hour</span>
+            </div>
+
+            <div class="ses-button">
+              {% if user.is_authenticated %}
+                <a href="{% url 'session_request' tutor.slug %}">
+                  <button class="btn btn-round btn-danger" value="{{ tutor.id }}" id="request" type="button">Request Session</button>
+                </a>
+              {% else %}
+                <a href="{% url 'login' %}">
+                  <button class="btn btn-round btn-danger" value="{{ tutor.id }}" id="request" type="button">Request Session</button>
+                </a>
+              {% endif %}
+            </div>
+        </div>
+      </section>
+  </div>
+</div>
+
+{% endblock %}

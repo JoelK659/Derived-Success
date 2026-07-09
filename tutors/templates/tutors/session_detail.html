@@ -1,0 +1,101 @@
+{% extends "tutors/base.html" %}
+{% load static %}
+
+
+{% block title %} Session for {{ session.student_name }} {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'sessions/session_detail.css' %}">
+
+
+<div class="container bootdey">
+  <div class="col-md-12">
+    <section class="panel">
+        <div class="col-md-6">
+            <h4 class="student-name">
+                {{ session.student_name }}
+            </h4>
+            <p>
+                {{ session.description }}
+            </p>
+            <div class="session_meta">
+                <span class="posted_in"> <strong>Requested Time:</strong> {{ session.time }}</span>
+            </div>
+
+            <div class="buttons">
+              <button class="btn btn-round btn-danger" onclick="showTextbox()" id="decline" type="button">Decline</button>
+              <div id="explanationBox" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); border:1px solid #000; background:#fff; padding:20px; z-index:1000;">
+                <p>Explain why you are declining this session: </p>
+                <input type="text" id="popupTextbox" size=50>
+                <a href="{% url 'home' %}">
+                <button class="btn btn-round btn-primary" data-session-id="{{ session.id }}" id="submit" type="button">Submit</button>
+                </a>
+              </div>
+              <a href="{% url 'home' %}">
+                <button class="btn btn-round btn-success" data-session-id="{{ session.id }}" id="confirm" type="button">Confirm</button>
+              </a>
+            </div>
+
+        </div>
+      </section>
+  </div>
+</div>
+
+
+<script>
+
+  function showTextbox() {
+    var x = document.getElementById("explanationBox");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    }
+    else {
+        x.style.display = "none";
+    }
+}
+
+  $(document).ready(function(){
+    $(document).on('click', '#submit', function(e){
+      let sessionId = $(this).data('session-id');
+      var reason = $('#popupTextbox').val();
+      console.log(reason)
+      console.log(sessionId)
+      $.ajax({
+        type: "POST",
+        url: "{% url 'session_decline' %}",
+        data:{
+          'status': "Declined",
+          'session_id': sessionId,
+          'csrfmiddlewaretoken': '{{ csrf_token }}',
+          'reason': reason
+        },
+        success: function(response) {
+          console.log(response.message);
+        },
+        error: function(error) {
+          console.log("Update Failed");
+        }
+      });
+    })
+    $(document).on('click', '#confirm', function(e){
+      let sessionId = $(this).data('session-id');
+      $.ajax({
+        type: "POST",
+        url: "{% url 'session_confirm' %}",
+        data:{
+          'status': "Confirmed",
+          'session_id': sessionId,
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(response) {
+          console.log(response.messsage);
+        },
+        error: function(error) {
+          console.log("Update Failed");
+        }
+      });
+    })
+  })
+</script>
+
+{% endblock %}
