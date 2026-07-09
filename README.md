@@ -65,8 +65,8 @@ The application demonstrates full-stack web development concepts including user 
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/derived-success.git
-cd derived-success
+git clone https://github.com/JoelK659/Derived-Success.git
+cd Derived-Success
 ```
 
 ### Create a Virtual Environment
